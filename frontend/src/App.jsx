@@ -59,9 +59,36 @@ export default function App() {
     }
   }
 
+  const [theme, setTheme] = useState(() => {
+    const t = document.documentElement.dataset.theme
+    if (t) return t
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
+
+  function toggleTheme() {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    document.documentElement.dataset.theme = next
+    try {
+      localStorage.setItem('theme', next)
+    } catch {
+      // storage unavailable; theme applies for this session only
+    }
+  }
+
   return (
     <main className="app">
-      <h1>To-Do</h1>
+      <div className="header">
+        <h1>To-Do</h1>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+        </button>
+      </div>
       <TodoForm onCreate={handleCreate} />
       <Filters
         view={view}
