@@ -39,7 +39,7 @@ input[type='search'],
 select {
   font: inherit;
   padding: 8px 10px;
-  border: 1px solid #b9b9c3;
+  border: 1px solid var(--field-border);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -48,7 +48,7 @@ select {
 button {
   font: inherit;
   padding: 8px 14px;
-  border: 1px solid #b9b9c3;
+  border: 1px solid var(--field-border);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -70,7 +70,7 @@ button.primary,
 .error {
   flex-basis: 100%;
   margin: 0;
-  color: #c62828;
+  color: var(--danger);
   font-size: 14px;
 }
 
@@ -138,7 +138,7 @@ button.primary,
   gap: 12px;
   align-items: center;
   padding: 10px 12px;
-  border: 1px solid #d4d4dc;
+  border: 1px solid var(--item-border);
   border-radius: 8px;
 }
 
@@ -189,6 +189,16 @@ button.primary,
 }
 
 button.danger {
-  color: #c62828;
-  border-color: #c62828;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.theme-toggle {
+  font-size: 14px;
 }
