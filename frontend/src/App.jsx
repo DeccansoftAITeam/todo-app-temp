@@ -5,7 +5,30 @@ import TodoForm from './components/TodoForm.jsx'
 import TodoList from './components/TodoList.jsx'
 import './App.css'
 
+const THEME_KEY = 'theme'
+
+function initialTheme() {
+  try {
+    const saved = localStorage.getItem(THEME_KEY)
+    if (saved === 'light' || saved === 'dark') return saved
+  } catch {
+    /* storage unavailable */
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
 export default function App() {
+  const [theme, setTheme] = useState(initialTheme)
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    try {
+      localStorage.setItem(THEME_KEY, theme)
+    } catch {
+      /* storage unavailable */
+    }
+  }, [theme])
+
   const [view, setView] = useState('all') // 'all' | 'overdue'
   const [query, setQuery] = useState('')
   const [showArchived, setShowArchived] = useState(false)
@@ -61,7 +84,18 @@ export default function App() {
 
   return (
     <main className="app">
-      <h1>To-Do</h1>
+      <div className="app-header">
+        <h1>To-Do</h1>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+      </div>
       <TodoForm onCreate={handleCreate} />
       <Filters
         view={view}
